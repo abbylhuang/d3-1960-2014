@@ -21,32 +21,17 @@
         allYearsData = csvData;
         var distinct = (value, index, self) => {
           return self.indexOf(value) == index;
+          
       }
+      makeScatterPlot(2000);
       
-
       //ADD DISTINCT YEARS to dropdown
       let years = allYearsData.map((row) => row['time'])
       var distinctYears = years.filter(distinct)
-
-      //add back button
-      var back_button = d3.select('body')
-      .append('button')
-      .html('<')
-      .on('click', function() {
-        let presentYear = document.getElementById('presentYear');
-        //if its the lowest year
-        if (presentYear.value == Math.min(...years)) {
-          var newYearValue = Math.max(...years);
-        } else {
-          var newYearValue = + presentYear.value - 1;
-        }
-        presentYear.value = newYearValue;
-        makeScatterPlot(newYearValue);
-      });
+      
 
       var dropDown = d3.select('body')
       .append('select')
-      .attr('id', 'presentYear')
       .on('change', function() {
           makeScatterPlot(this.value);
       });
@@ -58,28 +43,12 @@
         options.text((d) => { return d; });
 
         options.text(function(d) {
-                      return d
-                  })
-                  .attr("value", function(d) {return d})
+          return d
+        })
+        .attr("value", function(d) {return d})
         
       //give the parameter a variable so it depends on dropbox output/selection
       makeScatterPlot(options);
-
-      var next_button = d3.select('body')
-          .append('button')
-          .html('>')
-          .on('click', function() {
-            let presentYear = document.getElementById('presentYear');
-            if (presentYear.value == Math.max(...years)) {
-              var newYearValue = Math.min(...years);
-            } else {
-              var newYearValue = + presentYear.value + 1;
-            }
-            presentYear.value = newYearValue;
-            makeScatterPlot(newYearValue);
-          });
-
-        makeScatterPlot(2000); //Math.min(...years)
 
       });
   }
@@ -123,7 +92,7 @@
       .attr('x', 150)
       .attr('y', 30)
       .style('font-size', '18pt')
-      .text("Countries by Life Expectancy and Fertility Rate (" + allYearsData[0]["time"] + ")"); //data[0]["time"]
+      .text("Countries by Life Expectancy and Fertility Rate (" + data[0]["time"] + ")"); 
 
     svgScatterPlot.append('text')
       .attr('x', 300)
